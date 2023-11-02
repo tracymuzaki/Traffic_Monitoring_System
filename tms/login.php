@@ -74,7 +74,7 @@ include 'root/process.php';
                                 <div><a href="forgot-password" >Forget Password?</a></div>
                             </div>
                             <div class="pb-2">
-                                <button type="submit" name="login_btn" class="btn btn-dark w-100 font-weight-bold mt-2">Submit</button>
+                                <button type="submit" name="login_btn" class="btn btn-dark w-100 font-weight-bold mt-2" style="font-size: 18px">Submit</button>
                             </div>
                         </form>
                         <div class="pt-4 text-center" style="text-align: left!important">
