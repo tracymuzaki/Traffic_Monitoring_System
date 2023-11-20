@@ -1,3 +1,25 @@
+<style>
+   .add-btn{
+      margin-left:750px;
+
+   }
+   .btn{
+      margin-bottom: 8px;
+   }
+       @media screen and (max-width: 800px) {
+   /* styles for screens smaller than 600px wide */
+   .add-btn{
+      margin-left:560px;
+   }
+   }
+      @media screen and (max-width: 600px) {
+   /* styles for screens smaller than 600px wide */
+   .add-btn{
+      margin-left:96px;
+   }
+   }
+  
+</style>
 <?php include 'header.php';
 if ($role == 'admin') { 
    if (isset($_REQUEST['officers'])) { ?>
@@ -14,8 +36,8 @@ if ($role == 'admin') {
          <!-- 4-blocks row start -->
          <div class="row dashboard-header">
              <div class="card">
-               <div class="card-header">
-                  <h5 class="card-header-text">Officers / Admins  - <a href="#addofficer" class="btn btn-primary" data-toggle="modal">Add Officer</a></h5>
+               <div class="card-header ">
+                  <h5 class="card-header-text">Officers / Admins  <a href="#addofficer" class="btn btn-primary add-btn" data-toggle="modal">Add Officer</a></h5>
                </div>
                <div class="card-block">
                   <div class="row">
@@ -23,7 +45,7 @@ if ($role == 'admin') {
                         <table class="table table-hover">
                            <thead>
                               <tr>
-                                 <th>#</th>
+                                 <th>Id</th>
                                  <th>FullName</th>
                                  <th>Phone</th>
                                  <th>Email</th>
@@ -86,7 +108,7 @@ if ($role == 'admin') {
                        <table class="table table-hover">
                            <thead>
                               <tr>
-                                 <th>#</th>
+                                 <th>Id</th>
                                  <th>FullName</th>
                                  <th>Phone</th>
                                  <th>Email</th>
@@ -150,7 +172,7 @@ if ($role == 'admin') {
                         <table class="table table-hover">
                            <thead>
                               <tr>
-                                 <th>#</th>
+                                 <th>Id</th>
                                  <th>Road Name</th>
                                  <th>Action</th>
                               </tr>
@@ -202,7 +224,7 @@ if ($role == 'admin') {
                         <table class="table table-hover">
                            <thead>
                               <tr>
-                                 <th>#</th>
+                                 <th>Id</th>
                                  <th>Road Name</th>
                                  <th>Routes</th>
                                  <th>Status</th>
@@ -332,7 +354,7 @@ if ($role == 'admin') {
                         <table class="table table-hover">
                            <thead>
                               <tr>
-                                 <th>#</th>
+                                 <th>Id</th>
                                  <th>Road Name</th>
                                  <th>Action</th>
                               </tr>

@@ -38,13 +38,13 @@ if (isset($_POST['register_btn'])) {
         $sql = "INSERT INTO users VALUES(NULL,'$fullname','$phone','$email','$pass','','user','$dtime')";
         $result = dbCreate($sql);
         if($result == 1){
-            // $subj = "Traffic Monitoring System - Registration Verification";
-            // $body = "Hello {$fullname} you have successfully registered to Traffic Monitoring System.<br>
-            // Your Login details is as follows: Email {$email} and Password {$password}. ";
-            // GoMail($email,$subj,$body);
+            $subj = "Traffic Monitoring System - Registration Verification";
+            $body = "Hello {$fullname} you have successfully registered to Traffic Monitoring System.<br>
+            Your Login details is as follows: Email {$email} and Password {$password}. ";
+            GoMail($email,$subj,$body);
             //make the page have nice loader and alert after successful registration...
-            $_SESSION['loader'] = '<center><div class="spinner-border text-dark"></div></center>';
-            $_SESSION['status'] = '<div class="card card-body alert alert-dark text-center">User registration is successfully, Redirecting to login ...</div>';
+            $_SESSION['loader'] = '<center><div class="spinner-border text-white"></div></center>';
+            $_SESSION['status'] = '<div class="card card-body alert alert-success text-center">User registration is successfully, Redirecting to login ...</div>';
             header("refresh:3; url =".SITE_URL.'/login');
             //another method for alerting after successful registration...
             // echo "<script>
@@ -70,10 +70,10 @@ if (isset($_POST['register_btn'])) {
 }elseif (isset($_POST['login_btn'])) {
     trim(extract($_POST));
     if (empty($email)) {
-    array_push($errors, $_SESSION['email_err'] = '<div class="text-danger text-center">Phone or Emaill Address is Missing</div>');
+    array_push($errors, $_SESSION['email_err'] = '<div class="text-danger text-left fs-7 fw-normal">Email Address required</div>');
     }
     if (empty($password)) {
-    array_push($errors, $_SESSION['password_err'] = '<div class="text-danger text-center">Password is Missing</div>');
+    array_push($errors, $_SESSION['password_err'] = '<div class="text-danger text-left fs-7 fw-normal">Password required</div>');
     }
 
     if (empty($email)) {
@@ -83,7 +83,7 @@ if (isset($_POST['register_btn'])) {
         return (!preg_match("/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix", $str)) ? FALSE : TRUE;
         }
         if(!checkemail($email)){
-             array_push($errors, $_SESSION['invalid_email_err'] = '<div class="text-danger text-center">Invalid Email Format. </div>');
+             array_push($errors, $_SESSION['invalid_email_err'] = '<div class="text-danger text-center">Invalid Email Format </div>');
         }
         else{}
 
@@ -102,24 +102,24 @@ if (isset($_POST['register_btn'])) {
                 $_SESSION['email'] = $row->email;
                 $_SESSION['role'] = $row->role;
                 $_SESSION['date_registered'] = $row->date_registered;
-                $_SESSION['loader'] = '<center><div class="spinner-border text-dark"></div></center>';
-                $_SESSION['status'] = '<div class="card card-body alert alert-dark text-center">Account matched, Login Successfully</div>';
+                $_SESSION['loader'] = '<center><div class="spinner-border text-success"></div></center>';
+                $_SESSION['status'] = '<div class="alert alert-success d-flex align-items-center" role="alert"><div> Login is Successful </div></div>';
                 header("refresh:3; url=".SITE_URL);
             }else{
                 $_SESSION['status'] = '<div class=" card card-body alert alert-danger text-center">
-                Invalid account, Try again.</div>';
+                Invalid account, try again</div>';
             }
 
         }else{
-            // $_SESSION['status'] = '<div class=" card card-body alert alert-danger text-center">
-            // Wrong Login details </div>';
+            $_SESSION['status'] = '<div class=" card card-body alert alert-danger text-center">
+            Wrong Login details </div>';
         }
 
     }
 }elseif (isset($_POST['forgot_password_btn'])) {
     trim(extract($_POST));
     if (empty($email)) {
-    array_push($errors, $_SESSION['email_err'] = '<div class="text-danger text-center">Enter Email Address</div>');
+    array_push($errors, $_SESSION['email_err'] = '<div class="text-danger text-center fs-7 fw-normal">Enter Email Address</div>');
     }
     if (empty($email)) {   
     }else{
@@ -127,7 +127,7 @@ if (isset($_POST['register_btn'])) {
             return (!preg_match("/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix", $str)) ? FALSE : TRUE;
         }
         if(!checkemail($email)){
-             array_push($errors, $_SESSION['invalid_email_err'] = '<div class="text-danger text-center">Invalid Email Format. </div>');
+             array_push($errors, $_SESSION['invalid_email_err'] = '<div class="text-danger text-center fs-7 fw-normal">Invalid Email Format </div>');
         }else{}
     }
 
@@ -136,11 +136,11 @@ if (isset($_POST['register_btn'])) {
         $result = $dbh->query("UPDATE users SET token = '$token' WHERE email = '$email' ");
         if($result){
             $_SESSION['email'] = $email;
-            $_SESSION['loader'] = '<center><div class="spinner-border text-dark"></div></center>';
-            $_SESSION['status'] = '<div class="card card-body alert alert-dark text-center">Token sent successfully, Redirecting to OTP Screen ...</div>';
+            $_SESSION['loader'] = '<center><div class="spinner-border text-success"></div></center>';
+            $_SESSION['status'] = '<div class="card card-body alert alert-success text-center">Token sent successfully, Redirecting ...</div>';
             header("refresh:3; url =".SITE_URL.'/otp');
         }else{
-            //--error , registratio failed. 
+            //--error , registration failed. 
             echo "<script>
               alert('User registration failed');
               window.location = '".SITE_URL."/reset-password';
@@ -152,11 +152,12 @@ if (isset($_POST['register_btn'])) {
 }elseif (isset($_POST['verify'])) {
     trim(extract($_POST));
     if (count($errors) == 0) {
-        $result = $dbh->query("SELECT * FROM users WHERE phone = '$phone' AND token = '$otp' " );
+        $result = $dbh->query("SELECT * FROM users WHERE email = '$email' AND token = '$otp' " );
         if ($result->rowCount() == 1) {
         $row = $result->fetch(PDO::FETCH_OBJ);
          //`userid`, `fullname`, `email`, `phone``, `role`, `token`, `status`, `date_registered`, `password`
         $_SESSION['userid'] = $row->userid;
+        $_SESSION['email'] = $row->email;
         $_SESSION['phone'] = $row->phone;
         $_SESSION['status'] = $row->status;
         $_SESSION['fullname'] = $row->fullname;
@@ -184,23 +185,24 @@ if (isset($_POST['register_btn'])) {
 }elseif (isset($_POST['resent_token_btn'])) {
     trim(extract($_POST));
     if (count($errors) == 0) {
-        $result = $dbh->query("SELECT * FROM users WHERE phone = '$phone' " );
+        $result = $dbh->query("SELECT * FROM users WHERE email = '$email' " );
         if ($result->rowCount() == 1) {
             $token = rand(11111,99999);
-            $dbh->query("UPDATE users SET token = '$token' WHERE phone = '$phone' ");
-            $rx = dbRow("SELECT * FROM users WHERE phone = '$phone' ");
-            $subj = "POST KAZI - Account Verification Token";
-            $body = "Hello {$rx->fullname} you account verification token is: <br>
+            $dbh->query("UPDATE users SET token = '$token' WHERE email = '$email' ");
+            $rx = dbRow("SELECT * FROM users WHERE email = '$email' ");
+            $subj = "TMS User - Account Verification Token";
+            $body = "Hello {$rx->fullname} your account verification token is: <br>
                 <h1><b>{$token}</b></h1>";
             GoMail($email,$subj,$body);
             $_SESSION['email'] = $email;
-            $_SESSION['status'] = '<div class="alert alert-success text-center">Verification token is sent to your email successfully, Please enter the OTP send to you via Email to complete registration process</div>';
+            $_SESSION['status'] = '<div class="alert alert-success text-center">Verification token is sent to your email successfully, Please enter the code sent to you via Email to complete registration process</div>';
             header("refresh:3; url=".SITE_URL.'/token');
         }else{
             $_SESSION['status'] = '<div class="card card-body alert alert-warning text-center">
-            Account Verification Failed., please check your Token and try again.</div>';
+            Account Verification Failed, try again.</div>';
         }
     }
+    //user registration
 }elseif(isset($_POST['save_new_system_user_btn'])){
     trim(extract($_POST));
     if (count($errors) == 0) {
@@ -218,7 +220,7 @@ if (isset($_POST['register_btn'])) {
             $nums = array("+256".$phone);
             {
             $recipients = "".implode(',', $nums);
-            $message = "Nalongo Njala Supermarket : ".$message;
+            $message = "TMS User : ".$message;
             $gateway    = new AfricasTalkingGateway($username, $apikey);
             try 
             { 
@@ -250,6 +252,7 @@ if (isset($_POST['register_btn'])) {
         </script>";
         }
     }
+    //Adding the road
 }elseif (isset($_POST['add_road_new_user_btn'])) {
     trim(extract($_POST));
     // `road_id`, `road_name`
@@ -300,7 +303,7 @@ if (isset($_POST['register_btn'])) {
                 window.location = '".HOME_URL."?officers';
                 </script>";
         }else{
-            //--error , registratio failed. 
+            //--error , registration failed. 
             echo "<script>
               alert('User registration failed');
               window.location = '".HOME_URL."?officers';
@@ -309,11 +312,12 @@ if (isset($_POST['register_btn'])) {
      }else{
         //user already exists...
           echo "<script>
-            alert('Email Adding already registered');
+            alert('Email already registered');
             window.location = '".HOME_URL."?officers';
             </script>";
         }
     }
+    //road updates
 }elseif (isset($_POST['add_route_btn_new_user_btn'])) {
      trim(extract($_POST));
      // `rid`, `road_id`, `fromm`, `too`, `status`
