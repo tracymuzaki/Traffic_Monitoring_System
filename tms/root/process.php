@@ -44,7 +44,7 @@ if (isset($_POST['register_btn'])) {
             GoMail($email,$subj,$body);
             //make the page have nice loader and alert after successful registration...
             $_SESSION['loader'] = '<center><div class="spinner-border text-white"></div></center>';
-            $_SESSION['status'] = '<div class="card card-body alert alert-success text-center">User registration is successfully, Redirecting to login ...</div>';
+            $_SESSION['status'] = '<div class="card card-body alert alert-success text-center">User registration is successful, Redirecting to login ...</div>';
             header("refresh:3; url =".SITE_URL.'/login');
             //another method for alerting after successful registration...
             // echo "<script>
@@ -52,7 +52,7 @@ if (isset($_POST['register_btn'])) {
             //     window.location = '".SITE_URL."/login';
             //     </script>";
         }else{
-            //--error , registratio failed. 
+            //--error , registration failed. 
             echo "<script>
               alert('User registration failed');
               window.location = '".SITE_URL."/signup';
@@ -61,7 +61,7 @@ if (isset($_POST['register_btn'])) {
      }else{
         //user already exists...
           echo "<script>
-            alert('Email Adding already registered');
+            alert('Email already registered');
             window.location = '".SITE_URL."/signup';
             </script>";
         }

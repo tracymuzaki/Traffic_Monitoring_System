@@ -49,6 +49,7 @@ if ($role == 'admin') {
                                  <th>FullName</th>
                                  <th>Phone</th>
                                  <th>Email</th>
+                                 <th>Location</th>
                                  <th>Role</th>
                                  <th>Date Registered</th>
                                  <th>Action</th>
@@ -64,6 +65,7 @@ if ($role == 'admin') {
                                  <td><?=$rx->fullname; ?></td>
                                  <td><?=$rx->phone; ?></td>
                                  <td><?=$rx->email; ?></td>
+                                 <td><?=$rx->location; ?></td>
                                  <td><?=$rx->role; ?></td>
                                  <td><?=$rx->date_registered; ?></td>
                                  <td>
@@ -110,6 +112,7 @@ if ($role == 'admin') {
                               <tr>
                                  <th>Id</th>
                                  <th>FullName</th>
+                                 <th>Location</th>
                                  <th>Phone</th>
                                  <th>Email</th>
                                  <th>Role</th>
@@ -395,4 +398,4 @@ if ($role == 'admin') {
    </div>
    <?php } ?>
 <?php } ?>
-<?php include 'footer.php'; ?>
+<//?php include 'footer.php'; ?>
